@@ -6,24 +6,19 @@
 
 using namespace std;
 
-class CharNode {
+class CharNode
+{
 public:
     CharNode *father;
-    std::list<CharNode*> subtrees;
+    std::list<CharNode *> subtrees;
     char character;
     string significado;
 
-    // Construtor
-    CharNode (char element, string significado);
-    // Adiciona um filho ao nodo
-    CharNode addChild(char element, string significado);
-    // Identifica quantos filhos o nodo possui
-    int getSubtreesSize();
-    // Acessa o filho número "idx"
-    CharNode *getSubtree(int idx);
-    // Obtém a palavra correspondente a este nodo, subindo até a raiz da árvore
-    string getWord();
-    //Encontra e retorna o nodo que tem determinado caracter
-    CharNode* findChildChar(char element);
+    CharNode(char element, string significado);          // Construtor
+    CharNode addChild(char element, string significado); // Adiciona um filho ao nodo
+    int getSubtreesSize();                               // Identifica quantos filhos o nodo possui
+    CharNode *getSubtree(int idx);                       // Acessa o filho número "idx"
+    string getWord();                                    // Obtém a palavra correspondente a este nodo, subindo até a raiz da árvore
+    CharNode *findChildChar(char element);               // Encontra e retorna o nodo que tem determinado caracter
 };
 #endif
