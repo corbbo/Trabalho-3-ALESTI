@@ -22,11 +22,11 @@ class charNode {
         list<charNode*> getSubtreeList();                    //---------------------
         string getWord();                                    //---------------------
         charNode* getFather();                               //---------------------
-        bool hasChild();                                     //---------------------
+        list<string> searchAll(charNode* nodo, string prefix);//---------------------
+
 
         void setFather(charNode* nodo);                      // SETTERS ------------
-        void setLeft(charNode* nodo);                        // --------------------
-        void setRight(charNode* nodo);                       // --------------------
+        void setSig(string sig);                             // --------------------
 
 
         charNode *findChildChar(char element);               // Encontra e retorna o nodo que tem determinado caracter a partir deste nodo

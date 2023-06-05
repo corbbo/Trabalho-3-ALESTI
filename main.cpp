@@ -41,15 +41,20 @@
 
 }*/
 int main() {
-    wordTree arvore;
-    arvore.addWord("FRUTA", "Fruta");
-    arvore.addWord("FRUTIFERO", "Prospero");
-    //cout << arvore.findCharNodeForSig("Fruta")->getWord() << endl;
-    //cout << arvore.findCharNodeForWord("FRUTA")->getSig() << endl;
-    //list<string> stringList = arvore.searchAll("FR");
-    //list<string>::iterator k = stringList.begin();
-    //for (int i = 0; i < stringList.size(); i++, k++) {
-    //    cout << (*k) << endl;
-    //}
+    wordTree* arvore = new wordTree();
+    arvore->addWord("FRUTA", "Fruta");
+    arvore->addWord("FRUTIFERO", "Prospero, abundante");
+    arvore->addWord("FRUTIFICAR", "Dar fruto");
+    arvore->addWord("FRUTO", "Fruta");
+    arvore->addWord("FRUTOSO", "Que produz frutos");
+    arvore->addWord("FRUTUOSO", "Que produz frutos");
+    arvore->addWord("FRUTUOSIDADE", "Qualidade de frutuoso");
+    list<string> lista;
+    lista = arvore->searchAll("FRUT");
+    list<string>::iterator k = lista.begin();
+    for (int i = 0; i < lista.size(); k++, i++) {
+        cout << (*k) << endl;
+    }
     while (1);
+    delete arvore;
 }

@@ -10,9 +10,11 @@ class wordTree {
     private:
         charNode *root;
         charNode* getChildSig(string sig, charNode* papa);        // Procura recursivamente por um sig a partir de um nodo pai (para ser usado em findCharNodeForSig)
-        charNode* getStringEnd(charNode* nodo);                   //
+        charNode* getStringEnd(charNode* nodo);                   // Retorna o último nodo de uma string (para ser usado em findCharNodeForSig)
+        void subtreeDestroyer(charNode* nodo);                    // Destrói recursivamente uma subárvore (para ser usado em ~wordTree)
     public:
         wordTree(); // constutor
+        ~wordTree(); //destrutor
 
         charNode* getRoot();                            // Retrieve root
 
