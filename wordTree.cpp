@@ -54,12 +54,14 @@ void wordTree::addWord(string word, string sig) {
     for (int i = 0; i < word.length(); i++) {
         charNode* child = aux->findChildChar(word[i]);
         if (child == aux) {
+            cout << "Adding " << word[i] << " to the tree." << endl;
             charNode* newChild = new charNode(word[i], "", aux);
             aux = newChild;
         }
         else aux = child;
     }
     aux->setSig(sig);
+    cout << "Added " << word << " to the tree." << endl;
 }
 
 //The function below finds the last node of a string with signature sig. It first searches for the first character
@@ -126,11 +128,11 @@ list<string> wordTree::searchAll(string prefix) {
     else if (aux->getSig() != "") words.push_back(aux->getWord());
     list<charNode*>::iterator k = aux->getSubtreeList().begin();
     for (int i = 0; i < aux->getSubtreesSize(); i++, k++) { 
+        if ((*k)->getSig() != "") words.push_back((*k)->getWord());
         if ((*k)->getSubtreesSize() > 0) {
             list<string> auxList = searchAll((*k)->getWord());
-            if (auxList.size() > 0) words.insert(words.end(), auxList.begin(), auxList.end());
+            if (auxList.size() > 0) words.splice(words.end(), auxList);
         }
-        if ((*k)->getSig() != "") words.push_back((*k)->getWord());
     }
     return words;
 }
