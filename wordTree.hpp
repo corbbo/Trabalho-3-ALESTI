@@ -24,6 +24,9 @@ class wordTree {
         list<string> searchAll(string prefix);          // Percorre a árvore e retorna uma lista com as palavras iniciadas pelo prefixo dado.
         void printList(list<string> stringList);        // Imprime a lista feita por searchAll
         void read();                                    // Le o arquivo .csv
+        void printTree();                               // Imprime a árvore
+        void printTree(charNode* nodo);                 // Imprime a árvore a partir de um nodo
+        void searchEngine();                            // Motor de busca
 };
 
 #endif

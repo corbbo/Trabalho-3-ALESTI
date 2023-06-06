@@ -1,60 +1,81 @@
 #include <iostream>
 #include <list>
-#include <fstream>
 #include <sstream>
 #include "wordTree.hpp"
 
-/*int main(){
-    // lista de palavras
-    std::list<word> lista;
-    string line, pal, sig;
-
-    // ponteiro para o arquivo
-	fstream fin;
-
-	// abre o arquivo
-	fin.open("dicionario.csv", ios::in);
-    if(fin.fail()){
-        cout << "Erro ao abrir o arquivo!" << endl;
-        return 0;
-    }
-
-    // enquanto nao for o fim do arquivo... segue lendo...
-	while (!fin.eof()) {
-        // pega uma linha do arquivo e coloca dentro de "line"
-		getline(fin, line);
-
-        // transforma essa linha em um fluxo
-		stringstream s(line);
-
-        // lê cada coluna, ou seja, até chegar no ";"
-		getline(s, pal, ';');
-        getline(s, sig, ';');
-        word p(pal, sig);
-        lista.push_back(p);
-    }
-
-    while(lista.size() > 0){
-        cout << lista.front().getWord() << ": " << lista.front().getSig() << endl;
-        lista.pop_front();
-    }
-
-}*/
 int main() {
     wordTree* arvore = new wordTree();
-    arvore->addWord("FRUTA", "Fruta");
-    arvore->addWord("FRUTIFERO", "Prospero, abundante");
-    arvore->addWord("FRUTIFICAR", "Dar fruto");
-    arvore->addWord("FRUTO", "Fruta");
-    arvore->addWord("FRUTOSO", "Que produz frutos");
-    arvore->addWord("FRUTUOSO", "Que produz frutos");
-    arvore->addWord("FRUTUOSIDADE", "Qualidade de frutuoso");
-    list<string> lista;
-    lista = arvore->searchAll("FRUT");
-    list<string>::iterator k = lista.begin();
-    for (int i = 0; i < lista.size(); k++, i++) {
-        cout << (*k) << endl;
-    }
-    while (1);
+    //arvore->read();
+    arvore->addWord("ABACATEIRO", "Arvore da familia das lauraceas, de folhas perenes, flores pequenas e fruto comestivel, o abacate");
+    arvore->addWord("ABACAXI", "Fruto do abacaxizeiro, de casca dura, polpa amarelada e sabor acido e doce");
+    arvore->addWord("ABACAXIZEIRO", "Arvore da familia das bromeliaceas, de folhas longas e pontiagudas, flores amarelas e fruto comestivel, o abacaxi");
+    arvore->addWord("ABOBORA", "Fruto da aboboreira, de casca dura, polpa amarelada e sementes achatadas, comestivel e de sabor adocicado");
+    arvore->addWord("ABOBOREIRA", "Planta da familia das cucurbitaceas, de caule rasteiro, flores amarelas e fruto comestivel, a abobora");
+    arvore->addWord("ABRICOTE", "Fruto do abricoteiro, de casca aveludada, polpa amarelada e sabor adocicado");
+    arvore->addWord("ABRICOTEIRO", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, o abricote");
+    arvore->addWord("ACAI", "Fruto do acaizeiro, de casca fina, polpa escura e sabor adocicado");
+    arvore->addWord("BANANA", "Fruto da bananeira, de casca amarela, polpa macia e sabor adocicado");
+    arvore->addWord("BANANEIRA", "Planta da familia das musaceas, de caule cilindrico, flores amarelas e fruto comestivel, a banana");
+    arvore->addWord("CAJU", "Fruto do cajueiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("CAJUEIRO", "Arvore da familia das anacardiaceas, de flores amarelas e fruto comestivel, o caju");
+    arvore->addWord("CAQUI", "Fruto do caquizeiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("CAQUIZEIRO", "Arvore da familia das ebenaceas, de flores amarelas e fruto comestivel, o caqui");
+    arvore->addWord("CARAMBOLA", "Fruto da caramboleira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("CARAMBOLEIRA", "Arvore da familia das oxalidaceas, de flores amarelas e fruto comestivel, a carambola");
+    arvore->addWord("CEREJA", "Fruto da cerejeira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("CEREJEIRA", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, a cereja");
+    arvore->addWord("COCO", "Fruto do coqueiro, de casca dura, polpa branca e sabor adocicado");
+    arvore->addWord("COQUEIRO", "Arvore da familia das arecaceas, de caule cilindrico, flores amarelas e fruto comestivel, o coco");
+    arvore->addWord("FIGO", "Fruto da figueira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("FIGUEIRA", "Arvore da familia das moraceas, de flores amarelas e fruto comestivel, o figo");
+    arvore->addWord("FRAMBOESA", "Fruto da framboeseira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("FRAMBOESEIRA", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, a framboesa");
+    arvore->addWord("GOIABA", "Fruto da goiabeira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("GOIABEIRA", "Arvore da familia das mirtaceas, de flores brancas ou rosadas e fruto comestivel, a goiaba");
+    arvore->addWord("GRAVIOLA", "Fruto da gravioleira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("GRAVIOLEIRA", "Arvore da familia das anonaceas, de flores amarelas e fruto comestivel, a graviola");
+    arvore->addWord("JABUTICABA", "Fruto da jabuticabeira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("JABUTICABEIRA", "Arvore da familia das mirtaceas, de flores brancas ou rosadas e fruto comestivel, a jabuticaba");
+    arvore->addWord("JACA", "Fruto da jaqueira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("JAQUEIRA", "Arvore da familia das moraceas, de flores amarelas e fruto comestivel, a jaca");
+    arvore->addWord("JAMBO", "Fruto do jambeiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("JAMBEIRO", "Arvore da familia das myrtaceas, de flores brancas ou rosadas e fruto comestivel, o jambo");
+    arvore->addWord("JENIPAPO", "Fruto do jenipapeiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("JENIPEIRO", "Arvore da familia das rubiaceas, de flores amarelas e fruto comestivel, o jenipapo");
+    arvore->addWord("KIWI", "Fruto do kiwi, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("KIWI", "Arvore da familia das actinidiaceas, de flores amarelas e fruto comestivel, o kiwi");
+    arvore->addWord("LARANJA", "Fruto da laranjeira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("LARANJEIRA", "Arvore da familia das rutaceas, de flores brancas ou rosadas e fruto comestivel, a laranja");
+    arvore->addWord("LIMAO", "Fruto do limoeiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("LIMOEIRO", "Arvore da familia das rutaceas, de flores brancas ou rosadas e fruto comestivel, o limao");
+    arvore->addWord("MACA", "Fruto da macieira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("MACIEIRA", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, a maca");
+    arvore->addWord("MAMA", "Fruto da mamoeira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("MAMOEIRO", "Arvore da familia das caricaceas, de flores amarelas e fruto comestivel, a mama");
+    arvore->addWord("MANGA", "Fruto da mangueira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("MANGUEIRA", "Arvore da familia das anacardiaceas, de flores amarelas e fruto comestivel, a manga");
+    arvore->addWord("MARACUJA", "Fruto do maracujazeiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("MARACUJAZEIRO", "Arvore da familia das passifloraceas, de flores brancas ou rosadas e fruto comestivel, o maracuja");
+    arvore->addWord("MELANCIA", "Fruto da melancia, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("MELANCIEIRA", "Arvore da familia das cucurbitaceas, de flores amarelas e fruto comestivel, a melancia");
+    arvore->addWord("MELAO", "Fruto do meloeiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("MELOEIRO", "Arvore da familia das cucurbitaceas, de flores amarelas e fruto comestivel, o melao");
+    arvore->addWord("MORANGO", "Fruto do morangueiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("MORANGUEIRO", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, o morango");
+    arvore->addWord("NECTARINA", "Fruto da nectarineira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("NECTARINEIRA", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, a nectarina");
+    arvore->addWord("PERA", "Fruto da pereira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("PEREIRA", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, a pera");
+    arvore->addWord("PESSEGO", "Fruto do pessegueiro, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("PESSEGUEIRO", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, o pessego");
+    arvore->addWord("PITANGA", "Fruto da pitangueira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("PITANGUEIRA", "Arvore da familia das myrtaceas, de flores brancas ou rosadas e fruto comestivel, a pitanga");
+    arvore->addWord("ROMA", "Fruto da romeira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("ROMEIRA", "Arvore da familia das rosaceas, de flores brancas ou rosadas e fruto comestivel, a roma");
+    arvore->addWord("TANGERINA", "Fruto da tangerineira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("TANGERINEIRA", "Arvore da familia das rutaceas, de flores brancas ou rosadas e fruto comestivel, a tangerina");
+    arvore->addWord("UVA", "Fruto da videira, de casca fina, polpa amarelada e sabor adocicado");
+    arvore->addWord("VIDEIRA", "Arvore da familia das vitaceas, de flores brancas ou rosadas e fruto comestivel, a uva");
+    arvore->searchEngine();
     delete arvore;
 }

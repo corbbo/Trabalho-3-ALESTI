@@ -1,6 +1,5 @@
 #include "wordTree.hpp"
 #include "charNode.hpp"
-#include <fstream>
 #include <iostream>
 
 wordTree::wordTree() {
@@ -126,12 +125,95 @@ list<string> wordTree::searchAll(string prefix) {
     if (aux == root || (aux->getSubtreesSize() <= 0 && aux->getSig() == "")) return words;
     else if (aux->getSig() != "") words.push_back(aux->getWord());
     list<charNode*>::iterator k = aux->getSubtreeList().begin();
-    for (int i = 0; i < aux->getSubtreesSize(); i++, k++) {
+    for (int i = 0; i < aux->getSubtreesSize(); i++, k++) { 
         if ((*k)->getSubtreesSize() > 0) {
             list<string> auxList = searchAll((*k)->getWord());
-            words.insert(words.end(), auxList.begin(), auxList.end());
+            if (auxList.size() > 0) words.insert(words.end(), auxList.begin(), auxList.end());
         }
         if ((*k)->getSig() != "") words.push_back((*k)->getWord());
     }
     return words;
+}
+
+void wordTree::printTree() {
+    printTree(root);
+}
+
+void wordTree::printTree(charNode* nodo) {
+    static int level = 0;
+    string hifens = "";
+    for (int i = 0; i < level; i++) hifens += "-";
+    cout << hifens << nodo->getWord() << ": " << nodo->getSig() << endl;
+    list<charNode*>::iterator k = nodo->getSubtreeList().begin();
+    level++;
+    for (int i = 0; i < nodo->getSubtreesSize(); i++, k++) {
+        printTree((*k));
+    }
+    level--;
+}
+
+//The function below is the main function of the program. It first asks the user to choose a search mode. Then,
+//it asks the user to input a prefix or a word, depending on the search mode. Then, it searches for all words
+//that can be formed with the prefix or the word. If the list of words is not empty, the function prints all
+//words that can be formed with the prefix or the word. If the list of words is empty, the function prints a
+//message saying that no words were found. Then, the function asks the user to choose another search mode. This
+//process is repeated until the user chooses to exit the program.
+void wordTree::searchEngine() {
+    int mode = 0;
+    cout << "Bem-vindo ao dicionario de palavras! Use apenas letras maisculas para buscar palavras!" << endl;
+    cout << "Por favor, escolha o modo de busca:" << endl;
+    cout << "1 - Busca por prefixo" << endl;
+    cout << "2 - Busca por palavra" << endl;
+    cout << "3 - Impressao da arvore" << endl;
+    cout << "4 - Sair" << endl;
+    cin >> mode;
+    while (mode != 4) {
+        if (mode == 1) {
+            string prefix;
+            cout << "Digite o prefixo que deseja buscar: ";
+            cin >> prefix;
+            list<string> words = searchAll(prefix);
+            if (words.size() > 0) {
+                cout << "Palavras encontradas:" << endl;
+                list<string>::iterator k = words.begin();
+                for (int i = 0; i < words.size(); i++, k++) {
+                    cout << (*k) << endl;
+                }
+                cout << endl;
+                cout << "Digite a palavra entre as encontradas que deseja buscar: ";
+                string word;
+                cin >> word;
+                charNode* aux = findCharNodeForWord(word);
+                if (aux != root) cout << aux->getWord() << ": " << aux->getSig() << endl;
+                else cout << "Palavra nao encontrada." << endl;
+            }
+            else cout << "Nenhuma palavra encontrada." << endl;
+        }
+        else if (mode == 2) {
+            string word;
+            cout << "Digite a palavra que deseja buscar: ";
+            cin >> word;
+            charNode* aux = findCharNodeForWord(word);
+            if (aux != root) cout << aux->getWord() << ": " << aux->getSig() << endl;
+            else cout << "Palavra nao encontrada." << endl;
+        }
+        else if (mode == 3) {
+            cout << "Tem certeza que deseja imprimir a arvore? (s/n)" << endl;
+            char ans;
+            cin >> ans;
+            if (ans == 's') {
+                cout << "Absolutamente certeza? (s/n)" << endl;
+                cin >> ans;
+                if (ans == 's') printTree();
+                else cout << "Nao deixe seus sonhos serem sonhos." << endl;
+            } else cout << "Poxa, que pena." << endl;
+        }
+        else cout << "Modo invalido." << endl;
+        cout << "Por favor, escolha o modo de busca:" << endl;
+        cout << "1 - Busca por prefixo" << endl;
+        cout << "2 - Busca por palavra" << endl;
+        cout << "3 - Impressao da arvore" << endl;
+        cout << "4 - Sair" << endl;
+        cin >> mode;
+    }
 }
