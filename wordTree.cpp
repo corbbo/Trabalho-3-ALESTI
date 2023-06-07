@@ -1,6 +1,8 @@
 #include "wordTree.hpp"
 #include "charNode.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 wordTree::wordTree() {
     root = new charNode('.', "ROOT");
@@ -24,7 +26,6 @@ wordTree::~wordTree() {
     }
     delete root;
 }
-
 charNode* wordTree::getRoot() {return root;}
 
 //The function below finds the child node of charNode papa that has the signature sig. This is done by
@@ -54,14 +55,12 @@ void wordTree::addWord(string word, string sig) {
     for (int i = 0; i < word.length(); i++) {
         charNode* child = aux->findChildChar(word[i]);
         if (child == aux) {
-            cout << "Adding " << word[i] << " to the tree." << endl;
             charNode* newChild = new charNode(word[i], "", aux);
             aux = newChild;
         }
         else aux = child;
     }
     aux->setSig(sig);
-    cout << "Added " << word << " to the tree." << endl;
 }
 
 //The function below finds the last node of a string with signature sig. It first searches for the first character
@@ -101,7 +100,7 @@ charNode* wordTree::findCharNodeForWord(string word) {
     return aux;
 }
 
-// This function returns the last node of a string
+//This function returns the last node of a string
 // @param nodo nodo is a pointer to a charNode object, which represents the last node of a string
 // @return a pointer to a charNode object, which represents the last node of a string
 charNode* wordTree::getStringEnd(charNode* nodo) {
@@ -122,36 +121,34 @@ charNode* wordTree::getStringEnd(charNode* nodo) {
 //The entire process is repeated until all subtrees of the node that forms the prefix are searched. Once finished,
 //the function returns the list of words that can be formed with the prefix.
 list<string> wordTree::searchAll(string prefix) {
-    list<string> words;
-    charNode* aux = findCharNodeForWord(prefix);
-    if (aux == root || (aux->getSubtreesSize() <= 0 && aux->getSig() == "")) return words;
-    else if (aux->getSig() != "") words.push_back(aux->getWord());
-    list<charNode*>::iterator k = aux->getSubtreeList().begin();
-    for (int i = 0; i < aux->getSubtreesSize(); i++, k++) { 
-        if ((*k)->getSig() != "") words.push_back((*k)->getWord());
-        if ((*k)->getSubtreesSize() > 0) {
-            list<string> auxList = searchAll((*k)->getWord());
-            if (auxList.size() > 0) words.splice(words.end(), auxList);
+    list<string> words; //List of words that can be formed with the prefix that will be returned
+    charNode* aux = findCharNodeForWord(prefix); //Find the node that forms the prefix
+    if (aux->getSubtreesSize() > 0 && aux != root) {
+        list<charNode*> iteratorExorcisado = aux->getSubtreeList();                                         // <--- contribuições para o exorcismo/purgação do iterator k
+        int size = iteratorExorcisado.size();                                                                         
+        for (int i = 0; i < size; i++) { //For each subtree of the node that forms the prefix          
+            iteratorExorcisado.pop_front();                                                                       
+        }            
+        //list<charNode*>::iterator k = aux->getSubtreeList().begin();                                      // <--- Criações do demônio que desvirtuam o código e o ser humano
+        iteratorExorcisado = aux->getSubtreeList();
+        size = iteratorExorcisado.size();
+        for (int i = 0; i < size; i++) { //For each subtree of the node that forms the prefix
+            charNode* temp = iteratorExorcisado.front();
+            iteratorExorcisado.pop_front();
+        //for (int i = 0; i < aux->getSubtreesSize() && (*k) != nullptr; i++, k++) { //For each subtree of the node that forms the prefix <--- Criações do demônio que desvirtuam o código e o ser humano
+            if (temp->getSig() != "") {
+                words.push_back(temp->getWord()); //If the node has a signature, add the word to the list
+            }
+            if (temp->getSubtreesSize() == 0) {
+                continue; //If the subtree is empty, continue
+            }
+            else { //If the subtree is not empty
+                list<string> auxList = searchAll(temp->getWord()); //Recursively search for more words
+                words.splice(words.end(), auxList); //Add the words found to the list
+            }
         }
     }
     return words;
-}
-
-void wordTree::printTree() {
-    printTree(root);
-}
-
-void wordTree::printTree(charNode* nodo) {
-    static int level = 0;
-    string hifens = "";
-    for (int i = 0; i < level; i++) hifens += "-";
-    cout << hifens << nodo->getWord() << ": " << nodo->getSig() << endl;
-    list<charNode*>::iterator k = nodo->getSubtreeList().begin();
-    level++;
-    for (int i = 0; i < nodo->getSubtreesSize(); i++, k++) {
-        printTree((*k));
-    }
-    level--;
 }
 
 //The function below is the main function of the program. It first asks the user to choose a search mode. Then,
@@ -162,14 +159,13 @@ void wordTree::printTree(charNode* nodo) {
 //process is repeated until the user chooses to exit the program.
 void wordTree::searchEngine() {
     int mode = 0;
-    cout << "Bem-vindo ao dicionario de palavras! Use apenas letras maisculas para buscar palavras!" << endl;
+    cout << "Bem-vindo ao dicionario de palavras!" << endl;
     cout << "Por favor, escolha o modo de busca:" << endl;
     cout << "1 - Busca por prefixo" << endl;
     cout << "2 - Busca por palavra" << endl;
-    cout << "3 - Impressao da arvore" << endl;
-    cout << "4 - Sair" << endl;
+    cout << "3 - Sair" << endl;
     cin >> mode;
-    while (mode != 4) {
+    while (mode != 3) {
         if (mode == 1) {
             string prefix;
             cout << "Digite o prefixo que deseja buscar: ";
@@ -199,23 +195,31 @@ void wordTree::searchEngine() {
             if (aux != root) cout << aux->getWord() << ": " << aux->getSig() << endl;
             else cout << "Palavra nao encontrada." << endl;
         }
-        else if (mode == 3) {
-            cout << "Tem certeza que deseja imprimir a arvore? (s/n)" << endl;
-            char ans;
-            cin >> ans;
-            if (ans == 's') {
-                cout << "Absolutamente certeza? (s/n)" << endl;
-                cin >> ans;
-                if (ans == 's') printTree();
-                else cout << "Nao deixe seus sonhos serem sonhos." << endl;
-            } else cout << "Poxa, que pena." << endl;
-        }
         else cout << "Modo invalido." << endl;
         cout << "Por favor, escolha o modo de busca:" << endl;
         cout << "1 - Busca por prefixo" << endl;
         cout << "2 - Busca por palavra" << endl;
-        cout << "3 - Impressao da arvore" << endl;
-        cout << "4 - Sair" << endl;
+        cout << "3 - Sair" << endl;
         cin >> mode;
     }
+}
+
+//The function below reads the file "dicionario.csv" and adds all words and their signatures to the tree.
+//The file "dicionario.csv" contains a list of words and their signatures, separated by a semicolon. The
+//function reads the file line by line, and for each line, it adds the word and the signature to the tree.
+//The function then closes the file.
+void wordTree::read() {
+    ifstream infile;
+    infile.open("dicionario.csv");
+    string line;
+    while(!infile.eof()) {
+        getline(infile, line);
+        stringstream ss(line);
+        string word;
+        string sig;
+        getline(ss, word, ';');
+        getline(ss, sig);
+        addWord(word, sig);
+    }
+    infile.close();
 }
